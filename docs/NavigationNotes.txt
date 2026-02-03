@@ -1,0 +1,34 @@
+Navigation in Selenium
+We have 2 methods to reach desirable webpage:
+.get(url);
+.navigate().to(url);
+Difference:
+In 90% cases they do the same thing, but technically they are different.
+
+navigate() vs get():
+
+ .get() method:
+ - simple and readable
+ - opens the specified url and waits until page is fully loaded before proceeding with rest of code execution.
+ - clears the history
+ - best for test start
+
+ .navigate().to() method:
+ -part of navigation API, connection to .back(), forward() and refresh();
+ -works with the history stack ( able to move back and forward between pages if such sequence occurred)
+ -good for testing history
+ -navigate().back() - moves to the previous page
+ navigate().forward() - moves to one page ahead
+ navigate().refresh() - refershes the page
+ (notice: navigate().back() / forward() / referesh() works only if history stack present)
+
+
+When .refresh() method is required:
+ -date is changed on webpage(status or table update)
+ -session logout or reset( UI freezes and is not rebuilding)
+ -stale UI (page looks loaded but DOM is old)
+When it's a bad idea to use .refresh():
+ -element is not clickable
+ -element wasn't found
+ -etc
+
