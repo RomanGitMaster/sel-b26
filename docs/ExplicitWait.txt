@@ -1,0 +1,15 @@
+Explicit Wait or WebDriver Wait:
+
+ -is used to tell WebDriver to wait for a certain condition before throwing an exception for that specified condition.
+ -works with ExpectedConditions class and waits until a certain condition is met or the given time is achieved
+ -waits specified time, if condition is not met throws TimeOutException exception
+ -if condition was met before specified wait time, rest of time is skipped and Selenium moves on executing rest of the code
+
+Declaration :
+ WebDriverWait wait = new WebDriveraWait(driver, Duration.ofSeconds(10));
+Most common conditions that usually encountered (not all possible):
+ wait.until(ExpectedConditions.alertsPresent()); -> waits before alert pop up will appear
+ wait.until(ExpectedConditions.elementToBeClickable()); -> waits before element is clickable
+ wait.until(ExpectedConditions.presenceOfElementLocated());-> waits before element is present in DOM
+ wait.until(ExpectedConditions.visibilityOfElementLocated());-> waits before is visible
+ wait.until(ExpectedConditions.elementToBeSelected());-> waits before element is being selected
