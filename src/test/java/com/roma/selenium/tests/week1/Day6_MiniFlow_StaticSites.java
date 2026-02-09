@@ -62,6 +62,7 @@ public class Day6_MiniFlow_StaticSites {
         }
     }
 
+
     private static void log(String message) {
         System.out.println("[Day 6] " + message);
     }

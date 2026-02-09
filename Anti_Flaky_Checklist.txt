@@ -1,0 +1,113 @@
+🛡 Anti-Flaky Checklist (QA / Automation)
+
+1️⃣ No Thread.sleep()
+
+Замість: explicit wait
+Чому: sleep не чекає умову, а просто гальмує тест
+❌
+Thread.sleep(3000);
+✅
+wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+2️⃣ Wait for the RIGHT condition
+
+Не просто “дочекайся чогось”, а конкретної готовності:
+Ситуація	                 Правильний wait
+Елемент зʼявляється	         presenceOfElementLocated
+Має бути видно	             visibilityOfElementLocated
+Має бути клікабельний	     elementToBeClickable
+Міняється текст	             textToBePresentInElementLocated
+
+❗ Найчастіша причина flaky — чекали не ту умову.
+
+3️⃣ Don’t cache WebElements
+
+❌
+WebElement btn = driver.findElement(locator);
+// ...
+btn.click(); // potential stale
+✅
+waitClickable(locator).click();
+
+Rule:
+Locate → use → forget
+
+4️⃣ State-aware actions
+
+Не клікай “вслепу”.
+❌
+checkbox.click();
+✅
+
+if (!checkbox.isSelected()) {
+    checkbox.click();
+}
+
+Це прибирає рандомні кліки і фейли.
+
+5️⃣ Unique locators (1/1)
+
+Локатор повинен повертати рівно 1 елемент.
+
+Перевірка:
+
+driver.findElements(locator).size() == 1
+
+❗ Якщо не 1 → потенційний flaky.
+
+6️⃣ Avoid index-based locators (if possible)
+
+❌
+(//button)[1]
+✅
+//form[@id='login']//button[@type='submit']
+
+📌 Якщо індекси неминучі — коментар “why”.
+
+7️⃣ Don’t mix implicit + explicit waits
+
+❌
+implicitlyWait(10s);
+explicitWait(10s);
+
+📉 Результат: непередбачувані таймінги.
+
+Rule:
+
+Either explicit waits only — or chaos.
+
+8️⃣ Re-locate after DOM change
+
+Після:
+
+refresh()
+
+navigate()
+
+dynamic update (SPA)
+
+❌ старий WebElement
+✅ новий find / wait
+
+9️⃣ Log what matters
+
+Не “test failed”.
+
+✅
+[W2] Start button not clickable after 10s
+
+Хороші логи = швидкий дебаг.
+
+🔟 Flaky = timing or locator (almost always)
+
+99% flaky проблем =:
+
+неправильний wait
+
+нестабільний локатор
+
+Не “магія”, не “Selenium поганий”.
+
+🧠 Золоте правило
+
+If a test fails randomly — assume YOUR code is wrong first.
